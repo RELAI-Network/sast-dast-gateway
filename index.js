@@ -52,13 +52,20 @@ app.post('/scan', async (req, res) => {
     }
 
     try {
-        const response = await axios.post(MOBSF_BASE_URL+'/scan', { hash, re_scan }, {
+
+        const formData = new FormData();
+        formData.append('hash', hash);
+        formData.append('re_scan', 0);
+
+        const response = await axios.post(MOBSF_BASE_URL + '/scan',  formData, {
             headers: {
                 'Authorization': MOBSF_API_KEY,
             },
         });
 
         res.json(response.data);
+
+
     } catch (error) {
         console.error('Error forwarding scan request:', error);
         res.status(500).json({ error: 'Error forwarding scan request'});
